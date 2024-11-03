@@ -1,0 +1,7 @@
+last_name,first_name,middle_name,UIC,DOB,rank,branch,email,SSN,address,spouse_name,spouse_dob,spouse_SSN
+Garza,Melina,Juanita,WTULAA,20030514,MAJ,Army,mjg2290@columbia.edu,123-456-7890,"123 Road, New York NY 10025",Fake Name,20000111,098-765-4321
+Smith,John,Robert,WTULAB,19950228,CPT,Army,john.smith@example.com,234-567-8901,"456 Street, Los Angeles CA 90001",Jane Smith,19951230,123-456-7890
+Johnson,Emily,Marie,WTULAC,19900115,CPT,Army,emily.johnson@example.com,345-678-9012,"789 Avenue, Chicago IL 60601",Tom Johnson,19951212,234-567-8901
+Williams,David,James,WTULAD,19880522,MAJ,Army,david.williams@example.com,456-789-0123,"321 Boulevard, Miami FL 33101",Lisa Williams,19900809,345-678-9012
+Brown,Sarah,Louise,WTULAE,19940310,1LT,Army,sarah.brown@example.com,567-890-1234,"654 Lane, Dallas TX 75201",Mark Brown,19930515,456-789-0123
+
