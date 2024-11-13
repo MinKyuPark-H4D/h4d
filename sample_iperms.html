@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C4C Demo iPERMS - Soldier Document Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #0d5700;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        main {
+            padding: 20px;
+        }
+        h1 {
+            font-size: 24px;
+        }
+        .dashboard {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .soldier-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            padding: 15px;
+        }
+        .soldier-card h2 {
+            margin: 0 0 10px;
+            font-size: 20px;
+            color: #117200;
+        }
+        .soldier-details {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 15px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table th, table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        table th {
+            background-color: #f9f9f9;
+        }
+        .download-button {
+            color: #117200;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .download-button:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>C4C Demo iPERMS - Soldier Document Management</h1>
+    </header>
+    <main>
+        <section class="dashboard">
+            <div class="soldier-card">
+                <h2>John Doe</h2>
+                <div class="soldier-details">
+                    <p><strong>Rank:</strong> Sergeant</p>
+                    <p><strong>Unit:</strong> 1st Infantry Division</p>
+                    <p><strong>Service Number:</strong> 123456789</p>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Document</th>
+                            <th>Date Issued</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>SGLV Form 8286</td>
+                            <td>2024-01-15</td>
+                            <td>Validated</td>
+                            <td><a href="https://example.com/soldier1_sglv.pdf" class="download-button">Download</a></td>
+                        </tr>
+                        <tr>
+                            <td>DD Form 2760</td>
+                            <td>2024-02-20</td>
+                            <td>Pending</td>
+                            <td><a href="https://example.com/soldier1_dd2760.pdf" class="download-button">Download</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="soldier-card">
+                <h2>Jane Doe</h2>
+                <div class="soldier-details">
+                    <p><strong>Rank:</strong> Captain</p>
+                    <p><strong>Unit:</strong> Medical Corps</p>
+                    <p><strong>Service Number:</strong> 987654321</p>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Document</th>
+                            <th>Date Issued</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>SGLV Form 8286A</td>
+                            <td>2024-03-10</td>
+                            <td>Validated</td>
+                            <td><a href="https://example.com/soldier2_sglv_a.pdf" class="download-button">Download</a></td>
+                        </tr>
+                        <tr>
+                            <td>DA Form 7425</td>
+                            <td>2024-04-05</td>
+                            <td>Pending</td>
+                            <td><a href="https://example.com/soldier2_da7425.pdf" class="download-button">Download</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- maybe we can add more soldier cards -->
+        </section>
+    </main>
+</body>
+</html>
