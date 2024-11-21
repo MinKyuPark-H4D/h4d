@@ -1,5 +1,5 @@
 
-import os, shutil
+import os, shutil, json, glob
 from datetime import datetime
 from fillpdf import fillpdfs
 import PyPDF2
@@ -83,6 +83,41 @@ def fill_in_7425(folder, INFO):
         print(f"Error reading PDF: {e}")
   
     print('Completed')
+
+
+def autofill_individual_soldier(soldier_id):
+    file_path = 'fake-soldier-data.json'
+    # Open and load the JSON data from the file
+    with open(file_path, 'r') as file:
+        soldiers = json.load(file)['soldiers']
+    
+    INFO = soldiers[str(soldier_id)]
+    folder = f"./iPERMS/soldier_{soldier_id}"
+    print(f"Creating documents for {INFO['first_name']}-{INFO['last_name']}-{INFO['UIC']}")
+    fill_in_sglv(folder, INFO)
+    fill_in_sglv_a(folder, INFO)
+    fill_in_2760(folder, INFO)
+    fill_in_7425(folder, INFO)
+    print('Completed')
+    print('-----------')
+
+def autofill_uic(uic):
+    file_path = 'fake-soldier-data.json'
+    # Open and load the JSON data from the file
+    with open(file_path, 'r') as file:
+        soldiers = json.load(file)['soldiers']
+    for id, soldier in soldiers.items():
+        if soldier['UIC'] == uic:
+            INFO = soldier
+            folder = f"./iPERMS/soldier_{id}"
+            print(f"Creating documents for {INFO['first_name']}-{INFO['last_name']}-{INFO['UIC']}")
+            fill_in_sglv(folder, INFO)
+            fill_in_sglv_a(folder, INFO)
+            fill_in_2760(folder, INFO)
+            fill_in_7425(folder, INFO)
+            print('Completed')
+            print('-----------')
+
 
 
 def main():

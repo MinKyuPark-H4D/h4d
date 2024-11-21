@@ -2,6 +2,7 @@ from flask import Flask
 from flask import render_template
 from flask import Response, request, jsonify, redirect, url_for, send_from_directory
 import json, os
+from autofill import autofill_individual_soldier, autofill_uic
 app = Flask(__name__)
 
 file_path = 'fake-soldier-data.json'
@@ -13,6 +14,24 @@ with open(file_path, 'r') as file:
 @app.route('/')
 def home_page():
    return render_template('home_page.html')   
+
+@app.route('/automation', methods=['GET', 'POST'])
+def automation():
+    uics = set(soldier['UIC'] for soldier in soldiers.values())
+
+    if request.method == 'POST':
+       selection_type = request.form.get('selectionType')  # 'unit' or 'soldier'
+       if selection_type == 'unit':
+            selected_unit = request.form.get('unitSelect')  # selected unit (UIC)
+            print(f"Selected Unit: {selected_unit}")
+            # Handle autofill for the entire unit
+            autofill_uic(selected_unit)
+       elif selection_type == 'soldier':
+            selected_soldier_id = request.form.get('soldierSelect')  # selected soldier ID
+            print(f"Selected Soldier ID: {selected_soldier_id}")
+            # run autofill script
+            autofill_individual_soldier(selected_soldier_id)
+    return render_template('automation.html', soldiers=soldiers, uics=uics)
 
 @app.route('/soldiers')
 def view_soldiers():
