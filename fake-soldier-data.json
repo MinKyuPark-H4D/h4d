@@ -1,0 +1,85 @@
+{
+    "soldiers": [
+      {
+        "id":"1",
+        "last_name": "Washington",
+        "first_name": "Will",
+        "middle_name": "Peter",
+        "UIC": "WTULAA",
+        "DOB": "20030514",
+        "rank": "MAJ",
+        "branch": "Army",
+        "email": "will.washington@example.com",
+        "SSN": "123-456-7890",
+        "address": "123 Road, New York NY 10025",
+        "spouse_name": "Abby Washington",
+        "spouse_dob": "20000111",
+        "spouse_SSN": "098-765-4321"
+      },
+      {
+        "id":"2",
+        "last_name": "Smith",
+        "first_name": "John",
+        "middle_name": "Robert",
+        "UIC": "WTULAB",
+        "DOB": "19950228",
+        "rank": "CPT",
+        "branch": "Army",
+        "email": "john.smith@example.com",
+        "SSN": "234-567-8901",
+        "address": "456 Street, Los Angeles CA 90001",
+        "spouse_name": "Jane Smith",
+        "spouse_dob": "19951230",
+        "spouse_SSN": "123-456-7890"
+      },
+      {
+        "id":"3",
+        "last_name": "Johnson",
+        "first_name": "Emily",
+        "middle_name": "Marie",
+        "UIC": "WTULAC",
+        "DOB": "19900115",
+        "rank": "CPT",
+        "branch": "Army",
+        "email": "emily.johnson@example.com",
+        "SSN": "345-678-9012",
+        "address": "789 Avenue, Chicago IL 60601",
+        "spouse_name": "Tom Johnson",
+        "spouse_dob": "19951212",
+        "spouse_SSN": "234-567-8901"
+      },
+      {
+        "id":"4",
+        "last_name": "Williams",
+        "first_name": "David",
+        "middle_name": "James",
+        "UIC": "WTULAD",
+        "DOB": "19880522",
+        "rank": "MAJ",
+        "branch": "Army",
+        "email": "david.williams@example.com",
+        "SSN": "456-789-0123",
+        "address": "321 Boulevard, Miami FL 33101",
+        "spouse_name": "Lisa Williams",
+        "spouse_dob": "19900809",
+        "spouse_SSN": "345-678-9012"
+      },
+      {
+        "id":"5",
+        "last_name": "Brown",
+        "first_name": "Sarah",
+        "middle_name": "Louise",
+        "UIC": "WTULAE",
+        "DOB": "19940310",
+        "rank": "1LT",
+        "branch": "Army",
+        "email": "sarah.brown@example.com",
+        "SSN": "567-890-1234",
+        "address": "654 Lane, Dallas TX 75201",
+        "spouse_name": "Mark Brown",
+        "spouse_dob": "19930515",
+        "spouse_SSN": "456-789-0123"
+      }
+    ]
+  }
+  

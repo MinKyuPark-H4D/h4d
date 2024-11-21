@@ -7,6 +7,7 @@ name = "pypi"
 fillpdf = "*"
 pypdf2 = "*"
 pandas = "*"
+flask = "*"
 
 [dev-packages]
 
