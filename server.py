@@ -1,9 +1,10 @@
 from flask import Flask
 from flask import render_template
-from flask import Response, request, jsonify, redirect, url_for, send_from_directory
-import json, os
+from flask import Response, request, jsonify, redirect, url_for, send_from_directory, flash
+import json, os, secrets
 from autofill import autofill_individual_soldier, autofill_uic
 app = Flask(__name__)
+app.secret_key = secrets.token_hex(16)
 
 file_path = 'fake-soldier-data.json'
 # Open and load the JSON data from the file
@@ -20,17 +21,21 @@ def automation():
     uics = set(soldier['UIC'] for soldier in soldiers.values())
 
     if request.method == 'POST':
-       selection_type = request.form.get('selectionType')  # 'unit' or 'soldier'
-       if selection_type == 'unit':
+        selection_type = request.form.get('selectionType')  # 'unit' or 'soldier'
+        if selection_type == 'unit':
             selected_unit = request.form.get('unitSelect')  # selected unit (UIC)
             print(f"Selected Unit: {selected_unit}")
             # Handle autofill for the entire unit
             autofill_uic(selected_unit)
-       elif selection_type == 'soldier':
+            flash(f"Documents have been autofilled for the UIC: {selected_unit}", "success")
+        elif selection_type == 'soldier':
             selected_soldier_id = request.form.get('soldierSelect')  # selected soldier ID
             print(f"Selected Soldier ID: {selected_soldier_id}")
             # run autofill script
             autofill_individual_soldier(selected_soldier_id)
+            selected_soldier = soldiers[str(selected_soldier_id)]
+            flash(f"Documents have been autofilled for {selected_soldier['rank']} {selected_soldier['first_name']} {selected_soldier['last_name']}.", "success")
+        return redirect(url_for('automation')) 
     return render_template('automation.html', soldiers=soldiers, uics=uics)
 
 @app.route('/soldiers')

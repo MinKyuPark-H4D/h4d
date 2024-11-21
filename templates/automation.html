@@ -3,6 +3,17 @@
 {% block content %}    
 <script type="text/javascript" src="{{ url_for('static', filename = 'automation.js') }}"></script>
         <div class="container mt-4">
+            <div class="container">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <ul class="list-unstyled">
+                            {% for category, message in messages %}
+                                <li class="alert alert-{{ category }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endwith %}
+            </div>
             
             <div class="row">
                 <!-- Column 1: Autofill for Entire Unit or Specific Soldier -->
@@ -16,7 +27,7 @@
                         <!-- Form for autofill selection -->
                         <form method="POST">
                             <div class="form-group">
-                                <label for="selectionType">Choose autofill type:</label>
+                                <label for="selectionType" style="font-weight: bold;">Choose autofill type:</label>
                                 <select id="selectionType" name="selectionType" class="form-control" onchange="toggleSelection()">
                                     
                                     <option value="unit">Unit</option>
@@ -25,7 +36,7 @@
                             </div>
                             <!-- Unit Selection -->
                             <div class="form-group" id="unitSelectDiv" style="display: block;">
-                                <label for="unitSelect">Select Unit:</label>
+                                <label for="unitSelect" style="font-weight: bold;">Select Unit:</label>
                                 <select id="unitSelect" class="form-control" name="unitSelect">
                                     <!-- Loop through unique UICs -->
                                     {% for uic in uics %}
@@ -36,7 +47,7 @@
                 
                             <!-- Soldier Selection (dynamically populated) -->
                             <div class="form-group" id="soldierSelectDiv" style="display: none;">
-                                <label for="soldierSelect">Select Soldier:</label>
+                                <label for="soldierSelect" style="font-weight: bold;">Select Soldier:</label>
                                 <select id="soldierSelect" class="form-control" name="soldierSelect">
                                     <!-- Loop through soldiers and display their details -->
                                     {% for id, soldier in soldiers.items() %}
