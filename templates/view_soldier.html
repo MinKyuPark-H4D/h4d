@@ -48,18 +48,27 @@
         <!-- Files Column -->
         <div class="col-md-6">
             <div class="profile-card">
-                <!-- Files Header -->
                 <div class="profile-card-header text-center">
                     <h4>Files</h4>
                 </div>
                 <div class="profile-card-body">
                     <!-- File List -->
-                    <ul class="list-group">
-                        <li class="list-group-item">File1.pdf</li>
-                        <li class="list-group-item">File2.docx</li>
-                        <li class="list-group-item">File3.xlsx</li>
-                        <li class="list-group-item">File4.jpg</li>
-                    </ul>
+                    {% if files %}
+                        <ul class="list-group">
+                            {% for file in files %}
+                                <li class="list-group-item">
+                                    {{ file }}
+    
+                                    <!-- Download button aligned to the right -->
+                                    <a href="{{ url_for('download_file', filename='soldier_' + id + '/' + file) }}"  target="_blank">
+                                        <img src="https://media.istockphoto.com/id/844294300/vector/download-icon-isolated-vector.jpg?s=612x612&w=0&k=20&c=VCmvy8uEoTQnt9W0kZzjEBplN_opDkGKF_eQTLfkivs=" alt="Download" width="25" height="25">
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>No files available.</p>
+                    {% endif %}
                 </div>
             </div>
         </div>
