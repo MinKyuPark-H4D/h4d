@@ -1,0 +1,75 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<script type="text/javascript" src="{{ url_for('static', filename = 'view_soldier.js') }}"></script>
+
+<div class="container">
+    <div class="row top-item-row">
+        <!-- Profile Card Column -->
+        <div class="col-md-6">
+            <!-- Profile Card with profile-card class -->
+            <div class="profile-card">
+                <div class="profile-card-header text-center">
+                    <h3>{{soldier.first_name}} {{soldier.last_name}}</h3>
+                    <p>{{soldier.rank}} - {{soldier.branch}}</p>
+                </div>
+                <div class="profile-card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Full Name:</strong> {{soldier.first_name}} {{soldier.middle_name}} {{soldier.last_name}}</p>
+                            <p><strong>Rank:</strong> {{soldier.rank}}</p>
+                            <p><strong>Unit (UIC):</strong> {{soldier.UIC}}</p>
+                            <p><strong>Date of Birth:</strong> {{soldier.DOB}}</p>
+                            <!-- SSN has been removed for privacy -->
+                            <p><strong>SSN:</strong> 
+                                <span class="ssn" id="ssn">****-**-****</span>
+                                <button  class='eye-btn' id="reveal-ssn" data-ssn="{{soldier.SSN}}">
+                                    <img src="https://www.kindpng.com/picc/m/327-3273865_password-eye-icon-png-transparent-png.png" alt="Reveal SSN" id="ssn-eye" width="20" height="20">
+                                </button>
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Email:</strong> <a href="mailto:{{soldier.email}}">{{soldier.email}}</a></p>
+                            <p><strong>Address:</strong> {{soldier.address}}</p>
+                            <p><strong>Spouse Name:</strong> {{soldier.spouse_name}}</p>
+                            <p><strong>Spouse Date of Birth:</strong> {{soldier.spouse_dob}}</p>
+                            <p><strong>Spouse SSN:</strong> 
+                                <span class="spouse-ssn" id="spouse-ssn">****-**-****</span>
+                                <button class="eye-btn" id="reveal-spouse-ssn" data-spouse-ssn="{{soldier.spouse_SSN}}">
+                                    <img src="https://www.kindpng.com/picc/m/327-3273865_password-eye-icon-png-transparent-png.png" alt="Reveal SSN" id="ssn-eye" width="20" height="20">
+                                </button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Files Column -->
+        <div class="col-md-6">
+            <div class="profile-card">
+                <!-- Files Header -->
+                <div class="profile-card-header text-center">
+                    <h4>Files</h4>
+                </div>
+                <div class="profile-card-body">
+                    <!-- File List -->
+                    <ul class="list-group">
+                        <li class="list-group-item">File1.pdf</li>
+                        <li class="list-group-item">File2.docx</li>
+                        <li class="list-group-item">File3.xlsx</li>
+                        <li class="list-group-item">File4.jpg</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+{% endblock %}
+
+

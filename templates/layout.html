@@ -16,7 +16,7 @@
 
 
   <link rel="stylesheet" href="{{url_for('static', filename='main.css')}}">
-  <script type="text/javascript" src="{{ url_for('static', filename = 'layout.js') }}"></script>
+  <!-- <script type="text/javascript" src="{{ url_for('static', filename = 'layout.js') }}"></script> -->
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,7 +27,30 @@
   <body>
     
     <header>
+      <div class="header-nav-container">
         <h1>C4C Demo iPERMS - Soldier Document Management</h1>
+        
+        <!-- Navigation bar -->
+        <nav class="navbar navbar-expand-lg navbar-dark">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+              <!-- <img src="https://cdn-icons-png.flaticon.com/512/846/846449.png" alt="Home"> -->
+             Home
+            </a>
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                  <a class="nav-link" href="/soldiers">Soldiers</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/automation">Automation</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+        
     </header>
 
     <div class="container-fluid d-flex flex-column min-vh-100 main-background">   

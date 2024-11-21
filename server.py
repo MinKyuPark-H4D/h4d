@@ -7,7 +7,7 @@ app = Flask(__name__)
 file_path = 'fake-soldier-data.json'
 # Open and load the JSON data from the file
 with open(file_path, 'r') as file:
-    soldiers = json.load(file)
+    soldiers = json.load(file)['soldiers']
     
 # ROUTES
 @app.route('/')
@@ -18,7 +18,9 @@ def home_page():
 def view_soldiers():
     return render_template('soldiers.html', soldiers=soldiers)
 
-
+@app.route('/soldiers/<id>')
+def view_soldier(id=None):
+    return render_template('view_soldier.html', soldier=soldiers[id], id=id) 
 
 if __name__ == '__main__':
    app.run(debug = True)

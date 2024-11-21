@@ -1,7 +1,7 @@
 {
-    "soldiers": [
-      {
-        "id":"1",
+    "soldiers": {
+      "1":{
+        "id":1,
         "last_name": "Washington",
         "first_name": "Will",
         "middle_name": "Peter",
@@ -16,8 +16,8 @@
         "spouse_dob": "20000111",
         "spouse_SSN": "098-765-4321"
       },
-      {
-        "id":"2",
+      "2":{
+        "id":2,
         "last_name": "Smith",
         "first_name": "John",
         "middle_name": "Robert",
@@ -32,8 +32,8 @@
         "spouse_dob": "19951230",
         "spouse_SSN": "123-456-7890"
       },
-      {
-        "id":"3",
+      "3":{
+        "id":3,
         "last_name": "Johnson",
         "first_name": "Emily",
         "middle_name": "Marie",
@@ -48,8 +48,8 @@
         "spouse_dob": "19951212",
         "spouse_SSN": "234-567-8901"
       },
-      {
-        "id":"4",
+      "4":{
+        "id":4,
         "last_name": "Williams",
         "first_name": "David",
         "middle_name": "James",
@@ -64,8 +64,8 @@
         "spouse_dob": "19900809",
         "spouse_SSN": "345-678-9012"
       },
-      {
-        "id":"5",
+      "5":{
+        "id":5,
         "last_name": "Brown",
         "first_name": "Sarah",
         "middle_name": "Louise",
@@ -80,6 +80,6 @@
         "spouse_dob": "19930515",
         "spouse_SSN": "456-789-0123"
       }
-    ]
+    }
   }
   

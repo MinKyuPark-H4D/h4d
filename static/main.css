@@ -19,6 +19,7 @@ body {
 }
 .card-title{
     font-weight: bold;
+    color: black;
 }
 .card:hover {
     transform: scale(1.05);
@@ -46,3 +47,117 @@ body {
     color: #555;
     margin-bottom: 15px;
 }
+.header-nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  /* Additional styling for h1 if necessary */
+  h1 {
+    margin: 0;
+    font-size: 1.5rem; /* Adjust the size as needed */
+  }
+
+  .navbar {
+    margin: 0; /* Remove any margin from navbar */
+  }
+
+  .navbar-brand img {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px; /* Space between the logo and text */
+  }
+
+  /* Optional: Adjust navbar links' padding or margins if needed */
+  .navbar-nav .nav-item {
+    margin-right: 15px;
+  }
+  /* Profile Card Styles */
+.profile-card {
+    margin-top: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+
+/* Profile Card Header */
+.profile-card-header {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+.profile-card-header h3 {
+    margin-bottom: 10px;
+    color: #2c3e50;
+}
+
+.profile-card-header h5 {
+    color: #34495e;
+}
+
+.profile-card-header p {
+    color: #7f8c8d;
+}
+
+/* Profile Card Body */
+.profile-card-body {
+    padding: 20px;
+}
+
+/* Profile Card Text Styling */
+.profile-card-body p {
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.profile-card-body p strong {
+    color: #2c3e50;
+}
+
+.profile-card-body a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+.profile-card-body a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .profile-card-body .row {
+        flex-direction: column;
+    }
+}
+/* Optional: Style the reveal button */
+#reveal-ssn {
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    font-size: 14px;
+}
+
+.eye-btn{
+    background-color: white;
+    outline: 2px solid transparent; /* Removes the default outline */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+.files-section h4 {
+    font-size: 1.25rem;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.files-section .list-group-item {
+    cursor: pointer;
+}
+
+.files-section .list-group-item:hover {
+    background-color: #f8f9fa;
+}
+

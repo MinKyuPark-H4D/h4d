@@ -1,14 +1,18 @@
 function displaySoldiers(soldiers) {
     $("#soldier-items").empty();
     var row; // To group cards into rows of two
-
-    $.each(soldiers.soldiers, function(key, value) {
+    console.log(soldiers.length);
+    $.each(soldiers, function(key, value) {
+        console.log(typeof key);
+        
         // Every two cards, create a new row
-        if (key % 2 === 0) {
-            row = $("<div class='row'>");  
+        if (key % 2 === 1) {
+            row = $("<div class='row'>");
         }
 
-        var new_col = $("<div class='col-6 mb-4'>"); 
+        var new_col = $("<div class='col-6 mb-4'>");
+        var link = $("<a>").attr("href", "/soldiers/" + value.id).addClass("card-link");
+
         var new_card = $("<div class='card h-100'>");
         var new_card_body = $("<div class='card-body'>");
         
@@ -19,16 +23,19 @@ function displaySoldiers(soldiers) {
         var new_email = $("<p class='card-text'>").html("<strong>Email:</strong> " + value.email);
         var soldier_info_div = $("<div class='soldier-info'>");
 
-        // Append the rank, unit, and email to the div
         soldier_info_div.append(new_rank, new_unit, new_email);
         new_card_body.append(soldier_info_div);
-        var link = $("<a>").attr("href", "/view/soldier/" + value.id).addClass("btn custom-btn").text("View Profile");
-        new_card_body.append(link);
+
+        var viewProfileButton = $("<button>").addClass("btn custom-btn").text("View Profile");
+        new_card_body.append(viewProfileButton);
+        
         new_card.append(new_card_body);
-        new_col.append(new_card);
+        link.append(new_card);
+        new_col.append(link);
         row.append(new_col);
+
         // Every two cards, append the row to the container
-        if (key % 2 === 1 || key === soldiers.soldiers.length - 1) {
+        if (key % 2 === 0 || parseInt(key) === Object.keys(soldiers).length) {
             $('#soldier-items').append(row);
         }
     });
