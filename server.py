@@ -1,8 +1,11 @@
 from flask import Flask
 from flask import render_template
-from flask import Response, request, jsonify, redirect, url_for, send_from_directory, flash
-import json, os, secrets
+from flask import Response, request, jsonify, redirect, url_for, send_from_directory, flash, send_file, after_this_request
+import json, os, secrets, shutil
 from autofill import autofill_individual_soldier, autofill_uic
+from doc_retreival import batch_doc_pull
+
+
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
 
@@ -22,19 +25,32 @@ def automation():
 
     if request.method == 'POST':
         selection_type = request.form.get('selectionType')  # 'unit' or 'soldier'
-        if selection_type == 'unit':
-            selected_unit = request.form.get('unitSelect')  # selected unit (UIC)
-            print(f"Selected Unit: {selected_unit}")
-            # Handle autofill for the entire unit
-            autofill_uic(selected_unit)
-            flash(f"Documents have been autofilled for the UIC: {selected_unit}", "success")
-        elif selection_type == 'soldier':
-            selected_soldier_id = request.form.get('soldierSelect')  # selected soldier ID
-            print(f"Selected Soldier ID: {selected_soldier_id}")
-            # run autofill script
-            autofill_individual_soldier(selected_soldier_id)
-            selected_soldier = soldiers[str(selected_soldier_id)]
-            flash(f"Documents have been autofilled for {selected_soldier['rank']} {selected_soldier['first_name']} {selected_soldier['last_name']}.", "success")
+        # BATCH DOCUMENT PULLS
+        if 'documentType' in request.form.keys():
+            zip_file_path, folder_name = batch_doc_pull(request.form.get('unit'), request.form.get('documentType'), soldiers)
+            @after_this_request
+            def cleanup(response):
+                try:
+                    shutil.rmtree('temp_files')  # Remove the temp folder
+                except Exception as e:
+                    print(f"Error deleting temp files: {e}")
+                return response
+            return send_file(zip_file_path, as_attachment=True, download_name=f"{folder_name}.zip")
+        else:
+            # AUTOFILL
+            if selection_type == 'unit':
+                selected_unit = request.form.get('unitSelect')  # selected unit (UIC)
+                print(f"Selected Unit: {selected_unit}")
+                # Handle autofill for the entire unit
+                autofill_uic(selected_unit)
+                flash(f"Documents have been autofilled for the UIC: {selected_unit}", "success")
+            elif selection_type == 'soldier':
+                selected_soldier_id = request.form.get('soldierSelect')  # selected soldier ID
+                print(f"Selected Soldier ID: {selected_soldier_id}")
+                # run autofill script
+                autofill_individual_soldier(selected_soldier_id)
+                selected_soldier = soldiers[str(selected_soldier_id)]
+                flash(f"Documents have been autofilled for {selected_soldier['rank']} {selected_soldier['first_name']} {selected_soldier['last_name']}.", "success")
         return redirect(url_for('automation')) 
     return render_template('automation.html', soldiers=soldiers, uics=uics)
 

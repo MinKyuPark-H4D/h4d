@@ -56,7 +56,7 @@
                                 </select>
                             </div>
                 
-                            <button type="submit" class="btn btn-primary mt-3">Autofill</button>
+                            <button type="submit" class="custom-btn">Autofill</button>
                         </form>
                     </div>
                 </div>
@@ -66,9 +66,32 @@
                 <div class="col-md-4 mb-4">
                     <div class="card">
                         <div class="card-header text-center">
-                            <h4>Schedule Batch Pull of Documents</h4>
+                            <h4>Batch Document Retrieval</h4>
                         </div>
                         <div class="card-body">
+                            <p>Pull certain document for entire unit</p>
+                            <form method="POST">
+                                <div class="form-group">
+                                    <label for="unit" style="font-weight: bold;">Choose unit:</label>
+                                    <select id="unit" name="unit" class="form-control">
+                                          <!-- Loop through unique UICs -->
+                                          {% for uic in uics %}
+                                          <option value="{{ uic }}">{{ uic }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                               
+                                <div class="form-group">
+                                    <label for="documentType" style="font-weight: bold;">Choose document:</label>
+                                    <select id="documentType" name="documentType" class="form-control" >
+                                          <!-- can easily add more files, just put file name in list -->
+                                          <option value="SGLV Form 8286A.pdf">SGLV Form 8286A</option>
+                                          <option value="DA Form 7425 - Readiness and Deployment Checklist.pdf">DA Form 7425</option>
+                                    </select>
+                                </div>
+                    
+                                <button type="submit" class="custom-btn">Pull Documents</button>
+                            </form>
                           
                         </div>
                     </div>
