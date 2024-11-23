@@ -25,6 +25,16 @@ def create_validation_report(type, soldiers, soldier_id=None, uic=None):
     else:
         timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
         csv_file_path = f"{timestamp}-report-{uic}.csv"
+        with open(csv_file_path, mode='w', newline='') as csvfile:
+            csv_writer = csv.writer(csvfile)
+            # Write header
+            csv_writer.writerow(['Soldier Name', 'Document', 'Issue', 'Compliant'])
+            # iterate through soldiers in UIC
+            for soldier_id, soldier in soldiers.items():
+                if soldier['UIC'] == uic:  
+                    validate_soldier_documents(soldier, soldier_id, csv_writer)
+                    
+            print(f"Unit validation report saved as {csv_file_path}")
 
 
 

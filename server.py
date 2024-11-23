@@ -45,13 +45,13 @@ def automation():
             else:
                 soldier_id = request.form.get('soldierSelect2')
                 csv_file_path = create_validation_report('individual', soldiers, soldier_id=soldier_id)
-                @after_this_request
-                def cleanup(response):
-                    # Delete the temporary file after the response is sent
-                    if os.path.exists(csv_file_path):
-                        os.remove(csv_file_path)
-                    return response
-                return send_file(csv_file_path, as_attachment=True, download_name=f"{csv_file_path}")    
+            @after_this_request
+            def cleanup(response):
+                # Delete the temporary file after the response is sent
+                if os.path.exists(csv_file_path):
+                    os.remove(csv_file_path)
+                return response
+            return send_file(csv_file_path, as_attachment=True, download_name=f"{csv_file_path}")    
                    
         else:
             # AUTOFILL
