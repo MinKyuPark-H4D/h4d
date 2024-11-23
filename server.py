@@ -1,12 +1,12 @@
 from flask import Flask
 from flask import render_template
 from flask import Response, request, jsonify, redirect, url_for, send_from_directory, flash, send_file, after_this_request
-import json, os, secrets, shutil
+import json, os, secrets, shutil, base64
 from autofill import autofill_individual_soldier, autofill_uic
 from doc_retreival import batch_doc_pull
 from doc_validation import create_validation_report
 
-
+ORIGINAL_PDF_DIRECTORY = 'iPERMS'
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
 
@@ -94,6 +94,23 @@ def view_soldier(id=None):
 def download_file(filename):
     directory = os.path.join('iPERMS')
     return send_from_directory(directory, filename)
+
+@app.route('/upload/<soldier_id>', methods=['POST'])
+def upload_file(soldier_id):
+    if 'file' not in request.files:
+        return 'No file part', 400
+    file = request.files['file']
+    
+    if file.filename == '':
+        return 'No selected file', 400
+
+    # Get the filename and save it to the directory
+    filename = file.filename
+    directory = os.path.join(f'iPERMS/soldier_{soldier_id}')  # Directory where you want to save files
+    
+    # Check if the uploaded file exists and overwrite it
+    file.save(os.path.join(directory, filename))  # This will overwrite the file if it exists
+    return redirect(url_for('view_soldier', id=soldier_id))
 
 if __name__ == '__main__':
    app.run(debug = True)

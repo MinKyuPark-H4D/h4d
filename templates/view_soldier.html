@@ -52,23 +52,45 @@
                     <h4>Files</h4>
                 </div>
                 <div class="profile-card-body">
+                    <div class="upload-container">
+                        <form action="{{ url_for('upload_file', soldier_id=id) }}" method="POST" enctype="multipart/form-data">
+                            <label for="file" style="font-weight: bold;">Upload File:</label>
+                            <input type="file" name="file" id="file" required>
+                            <button type="submit">Upload</button>
+                        </form>
+                    </div>
+                    
+                    
                     <!-- File List -->
                     {% if files %}
-                        <ul class="list-group">
-                            {% for file in files %}
-                                <li class="list-group-item">
-                                    {{ file }}
-    
-                                    <!-- Download button aligned to the right -->
-                                    <a href="{{ url_for('download_file', filename='soldier_' + id + '/' + file) }}"  target="_blank">
-                                        <img src="https://media.istockphoto.com/id/844294300/vector/download-icon-isolated-vector.jpg?s=612x612&w=0&k=20&c=VCmvy8uEoTQnt9W0kZzjEBplN_opDkGKF_eQTLfkivs=" alt="Download" width="25" height="25">
-                                    </a>
-                                </li>
-                            {% endfor %}
-                        </ul>
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>File Name</th>
+                                        <th>Link</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for file in files %}
+                                        <tr>
+                                            <td>{{ file }}</td>
+                                            <td>
+                                                <!-- Download button aligned to the right -->
+                                                <a href="{{ url_for('download_file', filename='soldier_' + id + '/' + file) }}" target="_blank">
+                                                    <img src="https://media.istockphoto.com/id/844294300/vector/download-icon-isolated-vector.jpg?s=612x612&w=0&k=20&c=VCmvy8uEoTQnt9W0kZzjEBplN_opDkGKF_eQTLfkivs=" alt="Download" width="25" height="20">
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                
                     {% else %}
                         <p>No files available.</p>
+                        
                     {% endif %}
+                    
+                    
                 </div>
             </div>
         </div>

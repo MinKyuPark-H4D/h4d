@@ -10,10 +10,10 @@ function displaySoldiers(soldiers) {
             row = $("<div class='row'>");
         }
 
-        var new_col = $("<div class='col-6 mb-4'>");
+        var new_col = $("<div class='col-6 mb-4 align-items-center'>");
         var link = $("<a>").attr("href", "/soldiers/" + value.id).addClass("card-link");
 
-        var new_card = $("<div class='card h-100'>");
+        var new_card = $("<div class='card soldier-card h-100'>");
         var new_card_body = $("<div class='card-body'>");
         
         var new_title = $("<h5 class='card-title'>").text(value.first_name + " " + value.last_name);

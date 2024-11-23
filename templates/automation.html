@@ -14,135 +14,133 @@
                     {% endif %}
                 {% endwith %}
             </div>
+            <div class="container mt-4">
+                <!-- Tab Navigation -->
+                <ul class="nav nav-tabs  justify-content-center" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="autofill-tab" data-bs-toggle="tab" href="#autofill" role="tab" aria-controls="autofill" aria-selected="true">Autofill Documents</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="batch-tab" data-bs-toggle="tab" href="#batch" role="tab" aria-controls="batch" aria-selected="false">Batch Document Retrieval</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="validation-tab" data-bs-toggle="tab" href="#validation" role="tab" aria-controls="validation" aria-selected="false">Generate Validation Report</a>
+                    </li>
+                </ul>
             
-            <div class="row">
-                <!-- Column 1: Autofill for Entire Unit or Specific Soldier -->
-                <div class="col-md-4 mb-4">
-                <div class="card">
-                    <div class="card-header text-center">
-                        <h4>Autofill Documents</h4>
-                    </div>
-                    <div class="card-body">
-                        <p>Allow autofill for the entire unit or selected individuals.</p>
-                        <!-- Form for autofill selection -->
-                        <form method="POST">
-                            <div class="form-group">
-                                <label for="selectionType" style="font-weight: bold;">Choose autofill type:</label>
-                                <select id="selectionType" name="selectionType" class="form-control" onchange="toggleSelection()">
-                                    
-                                    <option value="unit">Unit</option>
-                                    <option value="soldier">Individual Soldier</option>
-                                </select>
+                <!-- Tab Content -->
+                <div class="tab-content mt-3" id="myTabContent">
+                    <!-- Autofill Documents Section -->
+                    <div class="tab-pane fade show active" id="autofill" role="tabpanel" aria-labelledby="autofill-tab">
+                        <div class="automation profile-card">
+                            <div class="profile-card-header text-center">
+                                <h4>Autofill Documents</h4>
                             </div>
-                            <!-- Unit Selection -->
-                            <div class="form-group" id="unitSelectDiv" style="display: block;">
-                                <label for="unitSelect" style="font-weight: bold;">Select Unit:</label>
-                                <select id="unitSelect" class="form-control" name="unitSelect">
-                                    <!-- Loop through unique UICs -->
-                                    {% for uic in uics %}
-                                        <option value="{{ uic }}">{{ uic }}</option>
-                                    {% endfor %}
-                                </select>
+                            <div class="card-body">
+                                <p>Allow autofill for the entire unit or selected individuals.</p>
+                                <form method="POST">
+                                    <div class="form-group">
+                                        <label for="selectionType" style="font-weight: bold;">Choose autofill type:</label>
+                                        <select id="selectionType" name="selectionType" class="form-control" onchange="toggleSelection()">
+                                            <option value="unit">Unit</option>
+                                            <option value="soldier">Individual Soldier</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group" id="unitSelectDiv" style="display: block;">
+                                        <label for="unitSelect" style="font-weight: bold;">Select Unit:</label>
+                                        <select id="unitSelect" class="form-control" name="unitSelect">
+                                            {% for uic in uics %}
+                                                <option value="{{ uic }}">{{ uic }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="form-group" id="soldierSelectDiv" style="display: none;">
+                                        <label for="soldierSelect" style="font-weight: bold;">Select Soldier:</label>
+                                        <select id="soldierSelect" class="form-control" name="soldierSelect">
+                                            {% for id, soldier in soldiers.items() %}
+                                                <option value="{{ id }}">{{ soldier.rank }} {{ soldier.first_name }} {{ soldier.last_name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="custom-btn">Autofill</button>
+                                </form>
                             </div>
-                
-                            <!-- Soldier Selection (dynamically populated) -->
-                            <div class="form-group" id="soldierSelectDiv" style="display: none;">
-                                <label for="soldierSelect" style="font-weight: bold;">Select Soldier:</label>
-                                <select id="soldierSelect" class="form-control" name="soldierSelect">
-                                    <!-- Loop through soldiers and display their details -->
-                                    {% for id, soldier in soldiers.items() %}
-                                        <option value="{{ id }}">{{ soldier.rank }} {{ soldier.first_name }} {{ soldier.last_name }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                
-                            <button type="submit" class="custom-btn">Autofill</button>
-                        </form>
-                    </div>
-                </div>
-                </div>
-        
-                <!-- Column 2: Schedule Batch Pull of Documents -->
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <div class="card-header text-center">
-                            <h4>Batch Document Retrieval</h4>
-                        </div>
-                        <div class="card-body">
-                            <p>Pull certain document for entire unit</p>
-                            <form method="POST">
-                                <div class="form-group">
-                                    <label for="unit" style="font-weight: bold;">Choose unit:</label>
-                                    <select id="unit" name="unit" class="form-control">
-                                          <!-- Loop through unique UICs -->
-                                          {% for uic in uics %}
-                                          <option value="{{ uic }}">{{ uic }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                               
-                                <div class="form-group">
-                                    <label for="documentType" style="font-weight: bold;">Choose document:</label>
-                                    <select id="documentType" name="documentType" class="form-control" >
-                                          <!-- can easily add more files, just put file name in list -->
-                                          <option value="SGLV Form 8286A.pdf">SGLV Form 8286A</option>
-                                          <option value="DA Form 7425 - Readiness and Deployment Checklist.pdf">DA Form 7425</option>
-                                    </select>
-                                </div>
-                    
-                                <button type="submit" class="custom-btn">Pull Documents</button>
-                            </form>
-                          
                         </div>
                     </div>
-                </div>
-        
-                <!-- Column 3: Run KSD Validation Report -->
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <div class="card-header text-center">
-                            <h4>Generate Validation Report</h4>
+            
+                    <!-- Batch Document Retrieval Section -->
+                    <div class="tab-pane fade" id="batch" role="tabpanel" aria-labelledby="batch-tab">
+                        <div class="automation profile-card">
+                            <div class="profile-card-header text-center">
+                                <h4>Batch Document Retrieval</h4>
+                            </div>
+                            <div class="card-body">
+                                <p>Pull certain documents for entire unit.</p>
+                                <form method="POST">
+                                    <div class="form-group">
+                                        <label for="unit" style="font-weight: bold;">Choose unit:</label>
+                                        <select id="unit" name="unit" class="form-control">
+                                            {% for uic in uics %}
+                                                <option value="{{ uic }}">{{ uic }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="documentType" style="font-weight: bold;">Choose document:</label>
+                                        <select id="documentType" name="documentType" class="form-control">
+                                            <option value="SGLV Form 8286A.pdf">SGLV Form 8286A</option>
+                                            <option value="DA Form 7425 - Readiness and Deployment Checklist.pdf">DA Form 7425</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="custom-btn">Pull Documents</button>
+                                </form>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <p>Validate KSD documents and generate a report on discrepancies.</p>
-                            <form method="POST">
-                                <div class="form-group">
-                                    <label for="selectionType2" style="font-weight: bold;">Choose report scope:</label>
-                                    <select id="selectionType2" name="selectionType2" class="form-control" onchange="toggleSelection2()">
-                                        <option value="unit">Unit</option>
-                                        <option value="soldier">Individual Soldier</option>
-                                    </select>
-                                </div>
-                                <!-- Unit Selection -->
-                                <div class="form-group" id="unitSelectDiv2" style="display: block;">
-                                    <label for="unitSelect2" style="font-weight: bold;">Select Unit:</label>
-                                    <select id="unitSelect2" class="form-control" name="unitSelect2">
-                                        <!-- Loop through unique UICs -->
-                                        {% for uic in uics %}
-                                            <option value="{{ uic }}">{{ uic }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                    
-                                <!-- Soldier Selection (dynamically populated) -->
-                                <div class="form-group" id="soldierSelectDiv2" style="display: none;">
-                                    <label for="soldierSelect2" style="font-weight: bold;">Select Soldier:</label>
-                                    <select id="soldierSelect2" class="form-control" name="soldierSelect2">
-                                        <!-- Loop through soldiers and display their details -->
-                                        {% for id, soldier in soldiers.items() %}
-                                            <option value="{{ id }}">{{ soldier.rank }} {{ soldier.first_name }} {{ soldier.last_name }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                    
-                                <button type="submit" class="custom-btn">Create Report</button>
-                            </form>
-                          
+                    </div>
+            
+                    <!-- Generate Validation Report Section -->
+                    <div class="tab-pane fade" id="validation" role="tabpanel" aria-labelledby="validation-tab">
+                        <div class="automation profile-card">
+                            <div class="profile-card-header text-center">
+                                <h4>Generate Validation Report</h4>
+                            </div>
+                            <div class="card-body">
+                                <p>Validate KSD documents and generate a report on discrepancies.</p>
+                                <form method="POST">
+                                    <div class="form-group">
+                                        <label for="selectionType2" style="font-weight: bold;">Choose report scope:</label>
+                                        <select id="selectionType2" name="selectionType2" class="form-control" onchange="toggleSelection2()">
+                                            <option value="unit">Unit</option>
+                                            <option value="soldier">Individual Soldier</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group" id="unitSelectDiv2" style="display: block;">
+                                        <label for="unitSelect2" style="font-weight: bold;">Select Unit:</label>
+                                        <select id="unitSelect2" class="form-control" name="unitSelect2">
+                                            {% for uic in uics %}
+                                                <option value="{{ uic }}">{{ uic }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="form-group" id="soldierSelectDiv2" style="display: none;">
+                                        <label for="soldierSelect2" style="font-weight: bold;">Select Soldier:</label>
+                                        <select id="soldierSelect2" class="form-control" name="soldierSelect2">
+                                            {% for id, soldier in soldiers.items() %}
+                                                <option value="{{ id }}">{{ soldier.rank }} {{ soldier.first_name }} {{ soldier.last_name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="custom-btn">Create Report</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            
         </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+           
         
         
  
