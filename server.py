@@ -4,6 +4,7 @@ from flask import Response, request, jsonify, redirect, url_for, send_from_direc
 import json, os, secrets, shutil
 from autofill import autofill_individual_soldier, autofill_uic
 from doc_retreival import batch_doc_pull
+from doc_validation import create_validation_report
 
 
 app = Flask(__name__)
@@ -24,7 +25,7 @@ def automation():
     uics = set(soldier['UIC'] for soldier in soldiers.values())
 
     if request.method == 'POST':
-        selection_type = request.form.get('selectionType')  # 'unit' or 'soldier'
+        
         # BATCH DOCUMENT PULLS
         if 'documentType' in request.form.keys():
             zip_file_path, folder_name = batch_doc_pull(request.form.get('unit'), request.form.get('documentType'), soldiers)
@@ -36,8 +37,25 @@ def automation():
                     print(f"Error deleting temp files: {e}")
                 return response
             return send_file(zip_file_path, as_attachment=True, download_name=f"{folder_name}.zip")
+        # VALIDATION REPORT
+        elif 'selectionType2' in request.form.keys():
+            if request.form.get('selectionType2') == 'unit':
+                uic = request.form.get('unitSelect2')
+                csv_file_path = create_validation_report('unit', soldiers, uic=uic)
+            else:
+                soldier_id = request.form.get('soldierSelect2')
+                csv_file_path = create_validation_report('individual', soldiers, soldier_id=soldier_id)
+                @after_this_request
+                def cleanup(response):
+                    # Delete the temporary file after the response is sent
+                    if os.path.exists(csv_file_path):
+                        os.remove(csv_file_path)
+                    return response
+                return send_file(csv_file_path, as_attachment=True, download_name=f"{csv_file_path}")    
+                   
         else:
             # AUTOFILL
+            selection_type = request.form.get('selectionType')  # 'unit' or 'soldier'
             if selection_type == 'unit':
                 selected_unit = request.form.get('unitSelect')  # selected unit (UIC)
                 print(f"Selected Unit: {selected_unit}")

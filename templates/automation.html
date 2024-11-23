@@ -101,10 +101,43 @@
                 <div class="col-md-4 mb-4">
                     <div class="card">
                         <div class="card-header text-center">
-                            <h4>Run KSD Validation Report</h4>
+                            <h4>Generate Validation Report</h4>
                         </div>
                         <div class="card-body">
-                            
+                            <p>Validate KSD documents and generate a report on discrepancies.</p>
+                            <form method="POST">
+                                <div class="form-group">
+                                    <label for="selectionType2" style="font-weight: bold;">Choose report scope:</label>
+                                    <select id="selectionType2" name="selectionType2" class="form-control" onchange="toggleSelection2()">
+                                        <option value="unit">Unit</option>
+                                        <option value="soldier">Individual Soldier</option>
+                                    </select>
+                                </div>
+                                <!-- Unit Selection -->
+                                <div class="form-group" id="unitSelectDiv2" style="display: block;">
+                                    <label for="unitSelect2" style="font-weight: bold;">Select Unit:</label>
+                                    <select id="unitSelect2" class="form-control" name="unitSelect2">
+                                        <!-- Loop through unique UICs -->
+                                        {% for uic in uics %}
+                                            <option value="{{ uic }}">{{ uic }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                    
+                                <!-- Soldier Selection (dynamically populated) -->
+                                <div class="form-group" id="soldierSelectDiv2" style="display: none;">
+                                    <label for="soldierSelect2" style="font-weight: bold;">Select Soldier:</label>
+                                    <select id="soldierSelect2" class="form-control" name="soldierSelect2">
+                                        <!-- Loop through soldiers and display their details -->
+                                        {% for id, soldier in soldiers.items() %}
+                                            <option value="{{ id }}">{{ soldier.rank }} {{ soldier.first_name }} {{ soldier.last_name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                    
+                                <button type="submit" class="custom-btn">Create Report</button>
+                            </form>
+                          
                         </div>
                     </div>
                 </div>
