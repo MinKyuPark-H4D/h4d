@@ -42,24 +42,52 @@ def create_validation_report(type, soldiers, soldier_id=None, uic=None):
 
 
 def validate_soldier_documents(soldier, soldier_id, csv_writer):
+    required_documents = [
+    'DD Form 2760 - Qualification to Possess Firearms or Ammunition.pdf',
+    'SGLV Form 8286.pdf',
+    'SGLV Form 8286A.pdf',
+    'DA Form 7425 - Readiness and Deployment Checklist.pdf'
+    ]
 
     # iterate through each file for soldier
     soldier_folder = os.path.join("iPERMS", f"soldier_{soldier_id}")
-    files = os.listdir(soldier_folder)
-    for file in files:
-        file_path = os.path.join(soldier_folder, file)
-        issues = validate_document(file_path, file, soldier)
-        # Determine compliance
-        if issues == "N/A":
-            compliant = 'YES' 
-        elif issues == "Couldn't detect form fields":
-            compliant = "UNKNOWN"
-        else:   
-            compliant = "NO" 
+    existing_files = set(os.listdir(soldier_folder))
+    all_files = set(required_documents) | existing_files  
+    
+    for file in all_files:
+        issues = None
+        compliant = None
+        # Check if the file is a required document
+        if file in required_documents:
+            if file not in existing_files:
+                issues = "MISSING"
+                compliant = "NO"
+            else:
+                # Validate the document (you can call your validation function here)
+                file_path = os.path.join(soldier_folder, file)
+                issues = validate_document(file_path, file, soldier)
+
+                if issues == "N/A":
+                    compliant = 'YES'
+                elif issues == "Couldn't detect form fields":
+                    compliant = "UNKNOWN"
+                else:
+                    compliant = "NO"
+        else:
+            # For extra files not in the required list, validate them as well
+            file_path = os.path.join(soldier_folder, file)
+            issues = validate_document(file_path, file, soldier)
+
+            # Determine compliance
+            if issues == "N/A":
+                compliant = 'YES'
+            elif issues == "Couldn't detect form fields":
+                compliant = "UNKNOWN"
+            else:
+                compliant = "NO"
         
         soldier_name = f"{soldier['first_name']} {soldier['last_name']}"
         csv_writer.writerow([soldier_name, file, issues, compliant])
-
 
 def validate_document(file_path, file_name, soldier):
     result = 'N/A' 

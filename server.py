@@ -1,12 +1,13 @@
 from flask import Flask
 from flask import render_template
 from flask import Response, request, jsonify, redirect, url_for, send_from_directory, flash, send_file, after_this_request
-import json, os, secrets, shutil, base64
+import json, os, secrets, shutil
+from datetime import datetime
 from autofill import autofill_individual_soldier, autofill_uic
 from doc_retreival import batch_doc_pull
 from doc_validation import create_validation_report
 
-ORIGINAL_PDF_DIRECTORY = 'iPERMS'
+
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
 
@@ -80,15 +81,21 @@ def view_soldiers():
 def view_soldier(id=None):
     soldier_folder = os.path.join('iPERMS', f'soldier_{id}')
     
-    # List all files in the soldier's folder (filter out directories)
     try:
         files = os.listdir(soldier_folder)
-        # Filter out non-files (just to be sure)
         files = [f for f in files if os.path.isfile(os.path.join(soldier_folder, f))]
     except FileNotFoundError:
         files = []
 
-    return render_template('view_soldier.html', soldier=soldiers[id], id=id, files=files) 
+    # Get the modification date for each file
+    file_data = []
+    for file in files:
+        file_path = os.path.join(soldier_folder, file)
+        mod_time = os.path.getmtime(file_path)  # Get last modified time
+        formatted_date = datetime.fromtimestamp(mod_time).strftime('%Y-%m-%d %H:%M:%S')  # Format it into a human-readable string
+        file_data.append({'name': file, 'modified': formatted_date})
+    file_data.sort(key=lambda x: x['modified'], reverse=True)
+    return render_template('view_soldier.html', soldier=soldiers[id], id=id, files=file_data)
 
 @app.route('/documents/<path:filename>')
 def download_file(filename):

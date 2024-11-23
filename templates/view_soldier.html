@@ -67,16 +67,18 @@
                                 <thead>
                                     <tr>
                                         <th>File Name</th>
+                                        <th>Last Modified</th>
                                         <th>Link</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% for file in files %}
                                         <tr>
-                                            <td>{{ file }}</td>
+                                            <td>{{ file.name }}</td>
+                                            <td>{{ file.modified }}</td>
                                             <td>
                                                 <!-- Download button aligned to the right -->
-                                                <a href="{{ url_for('download_file', filename='soldier_' + id + '/' + file) }}" target="_blank">
+                                                <a href="{{ url_for('download_file', filename='soldier_' + id + '/' + file.name) }}" target="_blank">
                                                     <img src="https://media.istockphoto.com/id/844294300/vector/download-icon-isolated-vector.jpg?s=612x612&w=0&k=20&c=VCmvy8uEoTQnt9W0kZzjEBplN_opDkGKF_eQTLfkivs=" alt="Download" width="25" height="20">
                                                 </a>
                                             </td>
