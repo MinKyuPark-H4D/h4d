@@ -23,3 +23,17 @@ function toggleSelection2() {
         document.getElementById('soldierSelectDiv2').style.display = 'block';
     }
 }
+$(document).ready(function(){
+    //when the page loads, display top 3 data structures
+    document.getElementById('scheduleToggle').addEventListener('change', function() {
+        var scheduledTimeDiv = document.getElementById('scheduledTimeDiv');
+        if (this.checked) {
+            scheduledTimeDiv.style.display = 'block'; // Show scheduled time field
+        } else {
+            scheduledTimeDiv.style.display = 'none'; // Hide scheduled time field
+        }
+    });                      
+
+    
+
+})

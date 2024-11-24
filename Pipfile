@@ -8,6 +8,7 @@ fillpdf = "*"
 pypdf2 = "*"
 pandas = "*"
 flask = "*"
+schedule = "*"
 
 [dev-packages]
 

@@ -1,8 +1,11 @@
 import datetime, os, shutil
 from zipfile import ZipFile 
-def batch_doc_pull(uic, doc_type, soldiers):
+def batch_doc_pull(uic, doc_type, soldiers, task_id=None):
     timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
-    folder_name = f"{timestamp}-{uic}-{doc_type}"
+    if task_id:
+        folder_name = f"{task_id}-{uic}-{doc_type}"
+    else:
+        folder_name = f"{timestamp}-{uic}-{doc_type}"
 
     # temp folder
     temp_folder = os.path.join("temp_files", folder_name)

@@ -6,10 +6,13 @@ from datetime import datetime
 from autofill import autofill_individual_soldier, autofill_uic
 from doc_retreival import batch_doc_pull
 from doc_validation import create_validation_report
-
+import schedule, threading, time, uuid
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
+
+# Store tasks in memory
+scheduled_tasks = {}
 
 file_path = 'fake-soldier-data.json'
 # Open and load the JSON data from the file
@@ -24,20 +27,31 @@ def home_page():
 @app.route('/automation', methods=['GET', 'POST'])
 def automation():
     uics = set(soldier['UIC'] for soldier in soldiers.values())
-
+    scheduled_tasks = convert_jobs_to_tasks()
     if request.method == 'POST':
         
         # BATCH DOCUMENT PULLS
         if 'documentType' in request.form.keys():
-            zip_file_path, folder_name = batch_doc_pull(request.form.get('unit'), request.form.get('documentType'), soldiers)
-            @after_this_request
-            def cleanup(response):
-                try:
-                    shutil.rmtree('temp_files')  # Remove the temp folder
-                except Exception as e:
-                    print(f"Error deleting temp files: {e}")
-                return response
-            return send_file(zip_file_path, as_attachment=True, download_name=f"{folder_name}.zip")
+            schedule_toggle = 'scheduleToggle' in request.form
+            if schedule_toggle:
+                # Parse the scheduled time
+                scheduled_time = request.form.get('scheduledTime')
+                scheduled_datetime = datetime.strptime(scheduled_time, '%Y-%m-%dT%H:%M')
+                
+                # Schedule the task (You could use Celery for real background tasks)
+                task_id = str(uuid.uuid4()) 
+                schedule.every().day.at(scheduled_datetime.strftime('%H:%M')).do(batch_doc_pull, request.form.get('unit'), request.form.get('documentType'), soldiers, task_id)
+               
+            else:
+                zip_file_path, folder_name = batch_doc_pull(request.form.get('unit'), request.form.get('documentType'), soldiers)
+                @after_this_request
+                def cleanup(response):
+                    try:
+                        shutil.rmtree('temp_files')  # Remove the temp folder
+                    except Exception as e:
+                        print(f"Error deleting temp files: {e}")
+                    return response
+                return send_file(zip_file_path, as_attachment=True, download_name=f"{folder_name}.zip")
         # VALIDATION REPORT
         elif 'selectionType2' in request.form.keys():
             if request.form.get('selectionType2') == 'unit':
@@ -71,7 +85,7 @@ def automation():
                 selected_soldier = soldiers[str(selected_soldier_id)]
                 flash(f"Documents have been autofilled for {selected_soldier['rank']} {selected_soldier['first_name']} {selected_soldier['last_name']}.", "success")
         return redirect(url_for('automation')) 
-    return render_template('automation.html', soldiers=soldiers, uics=uics)
+    return render_template('automation.html', soldiers=soldiers, uics=uics, scheduled_tasks= convert_jobs_to_tasks())
 
 @app.route('/soldiers')
 def view_soldiers():
@@ -118,6 +132,60 @@ def upload_file(soldier_id):
     # Check if the uploaded file exists and overwrite it
     file.save(os.path.join(directory, filename))  # This will overwrite the file if it exists
     return redirect(url_for('view_soldier', id=soldier_id))
+
+
+def format_scheduled_time(job):
+    return job.next_run.strftime('%Y-%m-%d %H:%M:%S')
+
+# Function to convert schedule jobs into task data
+def convert_jobs_to_tasks():
+    # Get all scheduled jobs from the schedule library
+    jobs = schedule.get_jobs()
+
+    tasks = []
+    for job in jobs:
+        # Extract relevant data from the job object
+        task_name = f"Batch Document Pull for {job.job_func.args[0]} - {job.job_func.args[1]}"  # Assuming the first two args are unit and document type
+        scheduled_time = format_scheduled_time(job)
+      
+        
+        # Retrieve the folder name or generated path
+        folder_name = f"{job.job_func.args[3]}-{job.job_func.args[0]}-{job.job_func.args[1]}"  # Use UIC and doc_type for the folder name
+        zip_file_path = f"temp_files/{folder_name}.zip" 
+        status = 'Completed' if os.path.exists(zip_file_path) else 'Scheduled'
+        # Add task to list
+        tasks.append({
+            'task_name': task_name,
+            'scheduled_time': scheduled_time,
+            'status': status,
+            'zip_file_path':zip_file_path, 
+            'view_link': f"/view_task/{job.job_func.args[3]}" ,
+            'id': job.job_func.args[3] # Unique ID for each task, could be the job's ID or memory address
+        })
+    tasks = sorted(tasks, key=lambda x: x['scheduled_time'])
+    return tasks
+
+
+@app.route('/view_task/<task_id>', methods=['GET'])
+def view_task(task_id):
+    # Find the task by its ID (you could store tasks in a global variable, or in a database)
+    task = next((task for task in convert_jobs_to_tasks() if task['id'] == task_id), None)
+    zip_file_path = task['zip_file_path']
+    
+    if os.path.exists(zip_file_path):
+        # Serve the zip file to the user
+        return send_file(zip_file_path, as_attachment=True, download_name=os.path.basename(zip_file_path))
+    
+    return 'No file found', 400
+
+def run_schedule():
+    while True:
+        schedule.run_pending()  # Run any scheduled tasks
+        time.sleep(1)  # Wait for 1 second before checking again
+
+# Start the scheduling in a background thread
+scheduler_thread = threading.Thread(target=run_schedule, daemon=True)
+scheduler_thread.start()
 
 if __name__ == '__main__':
    app.run(debug = True)

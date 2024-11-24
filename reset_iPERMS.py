@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import os, glob
+import os, glob, shutil
 base_folder='iPERMS'
 # Traverse all directories inside the base folder (assuming the folders are named like "soldier_{id}")
 for soldier_folder in os.listdir(base_folder):
@@ -18,3 +18,5 @@ for soldier_folder in os.listdir(base_folder):
                     print(f"Deleted file: {pdf_file}")
                 except Exception as e:
                     print(f"Error deleting {pdf_file}: {e}")
+# remove temp_files
+shutil.rmtree('temp_files')
