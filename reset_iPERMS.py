@@ -19,4 +19,6 @@ for soldier_folder in os.listdir(base_folder):
                 except Exception as e:
                     print(f"Error deleting {pdf_file}: {e}")
 # remove temp_files
-shutil.rmtree('temp_files')
+if os.path.isdir('temp_files'):
+        # Search for all PDF files within the 
+    shutil.rmtree('temp_files')
