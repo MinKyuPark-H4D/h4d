@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+     <link rel="icon" href="data:,">
+
+<!-- jquery -->
+  <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>  
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+
+
+  <link rel="stylesheet" href="{{url_for('static', filename='main.css')}}">
+  <!-- <script type="text/javascript" src="{{ url_for('static', filename = 'layout.js') }}"></script> -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+
+    <title>C4C iPERMS Demo</title>
+  </head>
+  <body>
+    
+    <header>
+      <div class="header-nav-container">
+        <h1>C4C Demo iPERMS - Soldier Document Management</h1>
+        
+        <!-- Navigation bar -->
+        <nav class="navbar navbar-expand-lg navbar-dark">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+              <!-- <img src="https://cdn-icons-png.flaticon.com/512/846/846449.png" alt="Home"> -->
+             Home
+            </a>
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                  <a class="nav-link" href="/soldiers">Soldiers</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/automation">Automation</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+        
+    </header>
+
+    <div class="container-fluid d-flex flex-column min-vh-100 main-background">   
+        {% block content %}
+        {% endblock %}
+    </div>
+
+  </body>
+</html>
+
+
+

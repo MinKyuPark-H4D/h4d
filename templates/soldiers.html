@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<script type="text/javascript" src="{{ url_for('static', filename = 'soldiers.js') }}"></script>
+<script>
+     var soldiers = JSON.parse('{{ soldiers| tojson | safe }}');
+</script>
+  <div id="soldier-items"></div>
+
+
+{% endblock %}

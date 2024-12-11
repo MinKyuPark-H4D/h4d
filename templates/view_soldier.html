@@ -1,0 +1,108 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<script type="text/javascript" src="{{ url_for('static', filename = 'view_soldier.js') }}"></script>
+
+<div class="container">
+    <div class="row top-item-row">
+        <!-- Profile Card Column -->
+        <div class="col-md-6">
+            <!-- Profile Card with profile-card class -->
+            <div class="profile-card">
+                <div class="profile-card-header text-center">
+                    <h3>{{soldier.first_name}} {{soldier.last_name}}</h3>
+                    <p>{{soldier.rank}} - {{soldier.branch}}</p>
+                </div>
+                <div class="profile-card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Full Name:</strong> {{soldier.first_name}} {{soldier.middle_name}} {{soldier.last_name}}</p>
+                            <p><strong>Rank:</strong> {{soldier.rank}}</p>
+                            <p><strong>Unit (UIC):</strong> {{soldier.UIC}}</p>
+                            <p><strong>Date of Birth:</strong> {{soldier.DOB}}</p>
+                            <!-- SSN has been removed for privacy -->
+                            <p><strong>SSN:</strong> 
+                                <span class="ssn" id="ssn">****-**-****</span>
+                                <button  class='eye-btn' id="reveal-ssn" data-ssn="{{soldier.SSN}}">
+                                    <img src="https://www.kindpng.com/picc/m/327-3273865_password-eye-icon-png-transparent-png.png" alt="Reveal SSN" id="ssn-eye" width="20" height="20">
+                                </button>
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Email:</strong> <a href="mailto:{{soldier.email}}">{{soldier.email}}</a></p>
+                            <p><strong>Address:</strong> {{soldier.address}}</p>
+                            <p><strong>Spouse Name:</strong> {{soldier.spouse_name}}</p>
+                            <p><strong>Spouse Date of Birth:</strong> {{soldier.spouse_dob}}</p>
+                            <p><strong>Spouse SSN:</strong> 
+                                <span class="spouse-ssn" id="spouse-ssn">****-**-****</span>
+                                <button class="eye-btn" id="reveal-spouse-ssn" data-spouse-ssn="{{soldier.spouse_SSN}}">
+                                    <img src="https://www.kindpng.com/picc/m/327-3273865_password-eye-icon-png-transparent-png.png" alt="Reveal SSN" id="ssn-eye" width="20" height="20">
+                                </button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Files Column -->
+        <div class="col-md-6">
+            <div class="profile-card">
+                <div class="profile-card-header text-center">
+                    <h4>Files</h4>
+                </div>
+                <div class="profile-card-body">
+                    <div class="upload-container">
+                        <form action="{{ url_for('upload_file', soldier_id=id) }}" method="POST" enctype="multipart/form-data">
+                            <label for="file" style="font-weight: bold;">Upload File:</label>
+                            <input type="file" name="file" id="file" required>
+                            <button type="submit">Upload</button>
+                        </form>
+                    </div>
+                    
+                    
+                    <!-- File List -->
+                    {% if files %}
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>File Name</th>
+                                        <th>Last Modified</th>
+                                        <th>Link</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for file in files %}
+                                        <tr>
+                                            <td>{{ file.name }}</td>
+                                            <td>{{ file.modified }}</td>
+                                            <td>
+                                                <!-- Download button aligned to the right -->
+                                                <a href="{{ url_for('download_file', filename='soldier_' + id + '/' + file.name) }}" target="_blank">
+                                                    <img src="https://media.istockphoto.com/id/844294300/vector/download-icon-isolated-vector.jpg?s=612x612&w=0&k=20&c=VCmvy8uEoTQnt9W0kZzjEBplN_opDkGKF_eQTLfkivs=" alt="Download" width="25" height="20">
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                
+                    {% else %}
+                        <p>No files available.</p>
+                        
+                    {% endif %}
+                    
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+{% endblock %}
+
+
